@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Mind IQ Test</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo"><i class="fas fa-brain"></i><span>Mind IQ Test</span></div>
+            <ul class="nav-menu">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="dashboard.html" class="active"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                <li><a href="test.html"><i class="fas fa-puzzle-piece"></i> IQ Test</a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <h1 class="page-title"><i class="fas fa-chart-simple"></i> Your Intelligence Dashboard</h1>
+        
+        <div class="dashboard-stats">
+            <div class="dashboard-card">
+                <i class="fas fa-brain"></i>
+                <div class="dashboard-value" id="iqScore">—</div>
+                <p>Your IQ Score</p>
+            </div>
+            <div class="dashboard-card">
+                <i class="fas fa-chart-line"></i>
+                <div class="dashboard-value" id="percentile">0%</div>
+                <p>Percentile Rank</p>
+            </div>
+            <div class="dashboard-card">
+                <i class="fas fa-calendar"></i>
+                <div class="dashboard-value" id="lastTest">—</div>
+                <p>Last Test Date</p>
+            </div>
+            <div class="dashboard-card">
+                <i class="fas fa-trophy"></i>
+                <div class="dashboard-value" id="rawScore">—</div>
+                <p>Raw Score</p>
+            </div>
+        </div>
+
+        <div class="analysis-card">
+            <h3><i class="fas fa-chart-bar"></i> Performance Analysis</h3>
+            <p id="analysisText">Complete the IQ test to see your detailed analysis and cognitive strengths.</p>
+            <a href="test.html" class="btn btn-primary" style="margin-top:1rem; display:inline-block;">Take Test Now</a>
+        </div>
+
+        <div class="tips-card">
+            <h3><i class="fas fa-lightbulb"></i> Brain Training Tips</h3>
+            <ul>
+                <li>Solve puzzles daily to improve logical reasoning</li>
+                <li>Practice memory exercises with number sequences</li>
+                <li>Learn a new skill to increase cognitive flexibility</li>
+                <li>Get adequate sleep for better brain function</li>
+            </ul>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section"><h3>Mind IQ Test</h3><p>Official Intelligence Assessment Platform</p></div>
+            <div class="footer-section"><h3>Quick Links</h3><a href="index.html">Home</a><a href="dashboard.html">Dashboard</a><a href="test.html">IQ Test</a><a href="about.html">About</a><a href="contact.html">Contact</a></div>
+            <div class="footer-section"><h3>Legal</h3><a href="#">Privacy Policy</a><a href="#">Terms of Service</a></div>
+            <div class="footer-section"><h3>Contact</h3><p><i class="fas fa-envelope"></i> vr3725794@gmail.com</p></div>
+        </div>
+        <div class="copyright"><p>&copy; 2026 Mind IQ Test - All Rights Reserved</p></div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        function loadDashboard() {
+            const iq = localStorage.getItem('iqScore');
+            const raw = localStorage.getItem('iqRaw');
+            const date = localStorage.getItem('iqDate');
+            if(iq) {
+                document.getElementById('iqScore').innerText = iq;
+                document.getElementById('rawScore').innerText = raw + '/100';
+                document.getElementById('lastTest').innerText = date;
+                let percentile = Math.min(99, Math.round((parseInt(iq)-70)/80*98));
+                document.getElementById('percentile').innerText = percentile + '%';
+                document.getElementById('analysisText').innerHTML = `🎉 Your IQ: ${iq} | Score: ${raw}/100 | You're in top ${100-percentile}% globally! Excellent performance in logical reasoning.`;
+            }
+        }
+        loadDashboard();
+    </script>
+</body>
+</html>
