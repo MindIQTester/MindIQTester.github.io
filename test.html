@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IQ Test - Mind IQ Test</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo"><i class="fas fa-brain"></i><span>Mind IQ Test</span></div>
+            <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a>
+                <a href="test.html" class="active"><i class="fas fa-puzzle-piece"></i> IQ Test</a>
+                <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+                <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+                <a href="privacy-policy.html"><i class="fas fa-shield-alt"></i> Privacy Policy</a>
+                <a href="terms-of-service.html"><i class="fas fa-file-contract"></i> Terms of Service</a>
+            </div>
+            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <div class="test-container">
+            <h1><i class="fas fa-brain"></i> Certified IQ Assessment</h1>
+            <p>Answer all 10 questions carefully. Each correct answer = 10 points. Time: ~10 minutes</p>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div id="questionArea"></div>
+        </div>
+    </main>
+
+    <div id="resultPopup" class="popup">
+        <div class="popup-content">
+            <i class="fas fa-trophy" style="font-size:3rem; color:#4CAF50;"></i>
+            <h2 id="popupTitle">Test Completed!</h2>
+            <p id="popupMessage">Your IQ score has been calculated.</p>
+            <button onclick="closePopupAndGoDashboard()" class="btn btn-primary">View Dashboard</button>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section"><h3>Mind IQ Test</h3><p>Official Intelligence Assessment Platform</p></div>
+            <div class="footer-section"><h3>Quick Links</h3><a href="index.html">Home</a><a href="dashboard.html">Dashboard</a><a href="test.html">IQ Test</a><a href="about.html">About</a><a href="contact.html">Contact</a></div>
+            <div class="footer-section"><h3>Legal</h3><a href="privacy-policy.html">Privacy Policy</a><a href="terms-of-service.html">Terms of Service</a></div>
+            <div class="footer-section"><h3>Contact</h3><p><i class="fas fa-envelope"></i> vr3725794@gmail.com</p></div>
+        </div>
+        <div class="copyright"><p>&copy; 2026 Mind IQ Test - All Rights Reserved</p></div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        const QUESTIONS = [
+            { text: "Complete the sequence: 2, 6, 12, 20, ?", options: ["28", "30", "32", "34"], correct: 1 },
+            { text: "If all Bloops are Razzies and all Razzies are Lazzies, then all Bloops are Lazzies?", options: ["True", "False", "Maybe", "None"], correct: 0 },
+            { text: "Which number is missing? 1, 4, 9, 16, ?", options: ["20", "25", "24", "30"], correct: 1 },
+            { text: "Find odd one: Apple, Mango, Orange, Carrot", options: ["Apple", "Mango", "Orange", "Carrot"], correct: 3 },
+            { text: "If 3=18, 4=32, 5=50, then 6=?", options: ["60", "72", "84", "90"], correct: 1 },
+            { text: "Complete pattern: 2, 5, 10, 17, ?", options: ["24", "25", "26", "28"], correct: 2 },
+            { text: "Which comes next? Z, X, V, T, ?", options: ["R", "S", "Q", "P"], correct: 0 },
+            { text: "If 12 × 12 = 144, then 13 × 13 = ?", options: ["156", "169", "196", "225"], correct: 1 },
+            { text: "Find missing: 3, 9, 27, 81, ?", options: ["162", "243", "324", "405"], correct: 1 },
+            { text: "Which is different? Circle, Square, Triangle, Cube", options: ["Circle", "Square", "Triangle", "Cube"], correct: 3 }
+        ];
+        let currentQ = 0, answers = new Array(10).fill(null), testDone = false;
+        
+        function renderTest() {
+            if(testDone) { 
+                document.getElementById('questionArea').innerHTML = '<div class="completed"><h3>✅ Test Completed!</h3><button class="btn btn-primary" onclick="resetTest()">Take Again</button></div>'; 
+                return; 
+            }
+            const q = QUESTIONS[currentQ];
+            let opts = '<div class="options-grid">';
+            q.options.forEach((opt, idx) => { 
+                opts += `<div class="option-btn ${answers[currentQ]===idx?'selected':''}" onclick="selectAnswer(${idx})">${opt}</div>`; 
+            });
+            opts += '</div>';
+            document.getElementById('progressBar').style.width = `${(currentQ/QUESTIONS.length)*100}%`;
+            document.getElementById('questionArea').innerHTML = `<div class="question-card"><h3>Question ${currentQ+1} of ${QUESTIONS.length}</h3><p class="question-text">${q.text}</p>${opts}<div class="nav-buttons"><button class="btn" ${currentQ===0?'disabled style="opacity:0.5"':''} onclick="prevQ()"><i class="fas fa-arrow-left"></i> Previous</button><button class="btn btn-primary" onclick="nextQ()">${currentQ===QUESTIONS.length-1?'Submit Test <i class="fas fa-check"></i>':'Next <i class="fas fa-arrow-right"></i>'}</button></div></div>`;
+        }
+        
+        function selectAnswer(idx) { answers[currentQ] = idx; renderTest(); }
+        
+        function prevQ() { if(currentQ>0){currentQ--; renderTest();} }
+        
+        function nextQ() {
+            if(answers[currentQ]===null){ alert('Please select an answer!'); return; }
+            if(currentQ===QUESTIONS.length-1){
+                let score=0; for(let i=0;i<QUESTIONS.length;i++) if(answers[i]===QUESTIONS[i].correct) score+=10;
+                let iq = Math.min(152, Math.max(70, Math.round(85+(score*0.67))));
+                localStorage.setItem('iqScore', iq); 
+                localStorage.setItem('iqRaw', score); 
+                localStorage.setItem('iqDate', new Date().toLocaleDateString());
+                testDone=true; 
+                document.getElementById('popupTitle').innerHTML=`🎉 Your IQ: ${iq}`;
+                document.getElementById('popupMessage').innerHTML=`You scored ${score}/100. Top ${Math.min(99,Math.round((iq-70)/80*98))}% globally!`;
+                document.getElementById('resultPopup').style.display='flex';
+            } else { currentQ++; renderTest(); }
+        }
+        
+        function closePopupAndGoDashboard(){ document.getElementById('resultPopup').style.display='none'; window.location.href='dashboard.html'; }
+        function resetTest(){ currentQ=0; answers=new Array(10).fill(null); testDone=false; localStorage.removeItem('iqScore'); localStorage.removeItem('iqRaw'); localStorage.removeItem('iqDate'); renderTest(); }
+        
+        renderTest();
+    </script>
+</body>
+</html>

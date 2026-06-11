@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Mind IQ Test</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo"><i class="fas fa-brain"></i><span>Mind IQ Test</span></div>
+            <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a>
+                <a href="test.html"><i class="fas fa-puzzle-piece"></i> IQ Test</a>
+                <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+                <a href="contact.html" class="active"><i class="fas fa-envelope"></i> Contact</a>
+                <a href="privacy-policy.html"><i class="fas fa-shield-alt"></i> Privacy Policy</a>
+                <a href="terms-of-service.html"><i class="fas fa-file-contract"></i> Terms of Service</a>
+            </div>
+            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <div class="contact-container">
+            <h1><i class="fas fa-envelope"></i> Contact Us</h1>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>Get in Touch</h3>
+                    <p><i class="fas fa-envelope"></i> vr3725794@gmail.com</p>
+                    <p><i class="fas fa-clock"></i> Response within 24 hours</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <form class="contact-form" id="contactForm">
+                    <input type="text" placeholder="Your Name" id="name" required>
+                    <input type="email" placeholder="Your Email" id="email" required>
+                    <textarea rows="5" placeholder="Your Message" id="message" required></textarea>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Send Message</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <i class="fas fa-check-circle" style="font-size:3rem; color:#4CAF50;"></i>
+            <h2>Message Sent!</h2>
+            <p>Thank you for contacting us. We'll respond within 24 hours.</p>
+            <button onclick="closePopup()" class="btn btn-primary">OK</button>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section"><h3>Mind IQ Test</h3><p>Official Intelligence Assessment Platform</p></div>
+            <div class="footer-section"><h3>Quick Links</h3><a href="index.html">Home</a><a href="dashboard.html">Dashboard</a><a href="test.html">IQ Test</a><a href="about.html">About</a><a href="contact.html">Contact</a></div>
+            <div class="footer-section"><h3>Legal</h3><a href="privacy-policy.html">Privacy Policy</a><a href="terms-of-service.html">Terms of Service</a></div>
+            <div class="footer-section"><h3>Contact</h3><p><i class="fas fa-envelope"></i> vr3725794@gmail.com</p></div>
+        </div>
+        <div class="copyright"><p>&copy; 2026 Mind IQ Test - All Rights Reserved</p></div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        document.getElementById('contactForm')?.addEventListener('submit', function(e){
+            e.preventDefault();
+            let name = document.getElementById('name').value;
+            let email = document.getElementById('email').value;
+            let msg = document.getElementById('message').value;
+            if(name && email && msg){
+                window.location.href = `mailto:vr3725794@gmail.com?subject=IQ Test Contact from ${name}&body=Name: ${name}%0AEmail: ${email}%0AMessage: ${msg}`;
+                document.getElementById('popup').style.display='flex';
+                this.reset();
+            } else alert('Please fill all fields!');
+        });
+        function closePopup(){ document.getElementById('popup').style.display='none'; }
+    </script>
+</body>
+</html>
